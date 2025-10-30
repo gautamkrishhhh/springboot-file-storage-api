@@ -1,0 +1,13 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://admin:password@localhost:27017/file_management?authSource=admin
+      auto-index-creation: true
+
+
+logging:
+  level:
+    org.springframework.data.mongodb:
+      core.MongoTemplate: DEBUG
+
+
