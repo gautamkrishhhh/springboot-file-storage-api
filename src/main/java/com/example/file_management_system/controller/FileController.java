@@ -19,22 +19,22 @@ public class FileController {
         this.fileUploader = fileUploader;
     }
 
-    /** ✅ Upload file for a given userId */
+
     @PostMapping("/upload")
-    public ResponseEntity<FileMetadata> uploadFile(@PathVariable String userId,
+    public ResponseEntity<FileMetadata> uploadFile(@RequestParam("userId") String userId,
                                                    @RequestParam("file") MultipartFile file) throws IOException {
         FileMetadata metadata = fileUploader.uploadFile(userId, file);
         return ResponseEntity.status(HttpStatus.CREATED).body(metadata);
     }
 
-    /** ✅ List all files uploaded by a user */
+
     @GetMapping("/{userId}")
     public ResponseEntity<List<FileMetadata>> listFiles(@PathVariable String userId) {
         List<FileMetadata> files = fileUploader.listFiles(userId);
         return ResponseEntity.ok(files);
     }
 
-    /** ✅ Download file by metadata ID */
+
     @GetMapping("/download/{id}")
     public ResponseEntity<byte[]> downloadFileById(@PathVariable String id) {
         FileMetadata meta = fileUploader.getMetadataById(id);
@@ -51,7 +51,6 @@ public class FileController {
         return new ResponseEntity<>(data, headers, HttpStatus.OK);
     }
 
-    /** ✅ Download file by userId and original filename */
     @GetMapping("/download/{userId}/by-name")
     public ResponseEntity<byte[]> downloadByUserAndName(@PathVariable String userId,
                                                         @RequestParam("fileName") String fileName) {
@@ -69,7 +68,7 @@ public class FileController {
         return new ResponseEntity<>(data, headers, HttpStatus.OK);
     }
 
-    /** ✅ Get extracted text (for PDF files) */
+
     @GetMapping("/text/{id}")
     public ResponseEntity<String> getExtractedText(@PathVariable String id) {
         FileMetadata meta = fileUploader.getMetadataById(id);
