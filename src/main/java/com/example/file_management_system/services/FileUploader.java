@@ -45,7 +45,7 @@ public class FileUploader {
         String storedFileName = UUID.randomUUID() + "_" + originalFilename;
         String key = userId + "/" + storedFileName;
 
-        // Upload to S3
+
         PutObjectRequest request = PutObjectRequest.builder()
                 .bucket(bucket)
                 .key(key)
@@ -55,7 +55,7 @@ public class FileUploader {
         s3Client.putObject(request,
                 RequestBody.fromInputStream(file.getInputStream(), file.getSize()));
 
-        // Save metadata
+
         FileMetadata metadata = new FileMetadata();
         metadata.setUserId(userId);
         metadata.setFileName(originalFilename);
@@ -64,7 +64,7 @@ public class FileUploader {
         metadata.setS3Path(key);
         metadata.setUploadedAt(Instant.now());
 
-        // Extract text if PDF
+
         if (isPdf(originalFilename, file.getContentType())) {
             try (InputStream in = file.getInputStream()) {
                 String text = extractTextFromPdf(in);
